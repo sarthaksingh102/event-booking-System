@@ -71,74 +71,74 @@ const EventsPage = () => {
     };
 
     return (
-        <div className=\"min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12\">
-            <div className=\"max-w-7xl mx-auto px-4\">
+        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12">
+            <div className="max-w-7xl mx-auto px-4">
                 {/* Header */}
-                <div className=\"mb-12 animate-fadeIn\">
-                    <h1 className=\"text-4xl md:text-5xl font-bold text-gray-800 mb-4\">
+                <div className="mb-12 animate-fadeIn">
+                    <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
                         🎪 Explore Events
                     </h1>
-                    <p className=\"text-xl text-gray-600\">
+                    <p className="text-xl text-gray-600">
                         Browse all upcoming events and find something amazing to do
                     </p>
                 </div>
 
                 {/* Filters and Search */}
-                <div className=\"bg-white rounded-xl shadow-lg p-6 mb-8 animate-fadeIn\">
-                    <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4\">
+                <div className="bg-white rounded-xl shadow-lg p-6 mb-8 animate-fadeIn">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {/* Search */}
                         <div>
-                            <label className=\"block text-sm font-bold text-gray-700 mb-2\">Search</label>
+                            <label className="block text-sm font-bold text-gray-700 mb-2">Search</label>
                             <input
-                                type=\"text\"
+                                type="text"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                placeholder=\"Search events...\"
-                                className=\"w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all duration-200\"
+                                placeholder="Search events..."
+                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all duration-200"
                             />
                         </div>
 
                         {/* Category Filter */}
                         <div>
-                            <label className=\"block text-sm font-bold text-gray-700 mb-2\">Category</label>
+                            <label className="block text-sm font-bold text-gray-700 mb-2">Category</label>
                             <select
                                 value={filterCategory}
                                 onChange={(e) => setFilterCategory(e.target.value)}
-                                className=\"w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all duration-200\"
+                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all duration-200"
                             >
-                                <option value=\"all\">All Events</option>
-                                <option value=\"workshop\">Workshops</option>
-                                <option value=\"concert\">Concerts</option>
-                                <option value=\"sports\">Sports</option>
-                                <option value=\"seminar\">Seminars</option>
-                                <option value=\"networking\">Networking</option>
+                                <option value="all">All Events</option>
+                                <option value="workshop">Workshops</option>
+                                <option value="concert">Concerts</option>
+                                <option value="sports">Sports</option>
+                                <option value="seminar">Seminars</option>
+                                <option value="networking">Networking</option>
                             </select>
                         </div>
 
                         {/* Sort */}
                         <div>
-                            <label className=\"block text-sm font-bold text-gray-700 mb-2\">Sort By</label>
+                            <label className="block text-sm font-bold text-gray-700 mb-2">Sort By</label>
                             <select
                                 value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value)}
-                                className=\"w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all duration-200\"
+                                className="w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all duration-200"
                             >
-                                <option value=\"date\">Date (Earliest)</option>
-                                <option value=\"price-low\">Price (Low to High)</option>
-                                <option value=\"price-high\">Price (High to Low)</option>
-                                <option value=\"popularity\">Most Popular</option>
+                                <option value="date">Date (Earliest)</option>
+                                <option value="price-low">Price (Low to High)</option>
+                                <option value="price-high">Price (High to Low)</option>
+                                <option value="popularity">Most Popular</option>
                             </select>
                         </div>
 
                         {/* Clear Filters */}
-                        <div className=\"flex items-end\">
+                        <div className="flex items-end">
                             <button
                                 onClick={() => {
                                     setSearchTerm('');
                                     setFilterCategory('all');
                                     setSortBy('date');
                                 }}
-                                className=\"w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-all duration-200\"
+                                className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-all duration-200"
                             >
                                 Clear Filters
                             </button>
@@ -148,44 +148,44 @@ const EventsPage = () => {
 
                 {/* Events Display */}
                 {loading ? (
-                    <div className=\"flex justify-center items-center h-64\">
-                        <div className=\"text-center\">
-                            <div className=\"animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4\"></div>
-                            <p className=\"text-gray-600 font-medium\">Loading events...</p>
+                    <div className="flex justify-center items-center h-64">
+                        <div className="text-center">
+                            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                            <p className="text-gray-600 font-medium">Loading events...</p>
                         </div>
                     </div>
                 ) : error ? (
-                    <div className=\"bg-red-50 border-l-4 border-red-500 p-6 rounded-lg animate-shake\">
-                        <p className=\"text-red-700 font-medium\">❌ {error}</p>
+                    <div className="bg-red-50 border-l-4 border-red-500 p-6 rounded-lg animate-shake">
+                        <p className="text-red-700 font-medium">❌ {error}</p>
                     </div>
                 ) : filteredEvents.length === 0 ? (
-                    <div className=\"text-center py-16\">
-                        <div className=\"text-6xl mb-4\">😞</div>
-                        <h3 className=\"text-2xl font-bold text-gray-800 mb-2\">No Events Found</h3>
-                        <p className=\"text-gray-600 mb-6\">Try adjusting your filters or search terms</p>
+                    <div className="text-center py-16">
+                        <div className="text-6xl mb-4">😞</div>
+                        <h3 className="text-2xl font-bold text-gray-800 mb-2">No Events Found</h3>
+                        <p className="text-gray-600 mb-6">Try adjusting your filters or search terms</p>
                         <button
                             onClick={() => {
                                 setSearchTerm('');
                                 setFilterCategory('all');
                                 setSortBy('date');
                             }}
-                            className=\"bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-200 transform hover:scale-105\"
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-all duration-200 transform hover:scale-105"
                         >
                             View All Events
                         </button>
                     </div>
                 ) : (
                     <div>
-                        <div className=\"mb-6 flex items-center justify-between\">
-                            <h2 className=\"text-2xl font-bold text-gray-800\">
+                        <div className="mb-6 flex items-center justify-between">
+                            <h2 className="text-2xl font-bold text-gray-800">
                                 Found {filteredEvents.length} {filteredEvents.length === 1 ? 'event' : 'events'}
                             </h2>
                         </div>
-                        <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8\">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {filteredEvents.map((event, index) => (
                                 <div
                                     key={event.id}
-                                    className=\"animate-fadeIn\"
+                                    className="animate-fadeIn"
                                     style={{ animationDelay: `${index * 50}ms` }}
                                 >
                                     <EventCard event={event} onBook={handleBook} />
