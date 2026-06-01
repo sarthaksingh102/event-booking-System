@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API_BASE_URL = 'http://localhost:8080/api'; // Update with your backend URL
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8081/api';
 
 // Auth API calls
 export const registerUser = async (userData) => {
@@ -53,7 +53,7 @@ export const deleteEvent = async (eventId, token) => {
 
 // Booking API calls
 export const bookTicket = async (bookingData, token) => {
-    const response = await axios.post(`${API_URL}/bookings`, bookingData, {
+    const response = await axios.post(`${API_BASE_URL}/bookings`, bookingData, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -62,7 +62,7 @@ export const bookTicket = async (bookingData, token) => {
 };
 
 export const fetchUserBookings = async (token) => {
-    const response = await axios.get(`${API_URL}/bookings/user`, {
+    const response = await axios.get(`${API_BASE_URL}/bookings/user`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -71,7 +71,7 @@ export const fetchUserBookings = async (token) => {
 };
 
 export const fetchAllBookings = async (token) => {
-    const response = await axios.get(`${API_URL}/bookings/all`, {
+    const response = await axios.get(`${API_BASE_URL}/bookings/all`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
