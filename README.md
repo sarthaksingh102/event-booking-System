@@ -1,3 +1,11 @@
+---
+title: Eventbooking
+emoji: 🎟️
+colorFrom: indigo
+colorTo: purple
+sdk: docker
+pinned: false
+---
 # Local Event Booking System
 
 ## Project Overview
