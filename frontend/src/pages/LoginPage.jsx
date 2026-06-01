@@ -59,4 +59,73 @@ const LoginPage = () => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="you@example.com"
-                                className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all duration-200\"\n                                required\n                                disabled={loading}\n                            />\n                        </div>\n\n                        {/* Password Input */}\n                        <div>\n                            <label className=\"block text-sm font-bold text-gray-700 mb-2\">Password</label>\n                            <input\n                                type=\"password\"\n                                value={password}\n                                onChange={(e) => setPassword(e.target.value)}\n                                placeholder=\"••••••••\"\n                                className=\"w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all duration-200\"\n                                required\n                                disabled={loading}\n                            />\n                        </div>\n\n                        {/* Login Button */}\n                        <button\n                            type=\"submit\"\n                            disabled={loading}\n                            className=\"w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-3 px-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg\"\n                        >\n                            {loading ? (\n                                <span className=\"flex items-center justify-center gap-2\">\n                                    <span className=\"w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin\"></span>\n                                    Signing in...\n                                </span>\n                            ) : (\n                                '🚀 Sign In'\n                            )}\n                        </button>\n\n                        {/* Forgot Password Link */}\n                        <div className=\"text-center\">\n                            <a href=\"#\" className=\"text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors duration-200\">\n                                Forgot your password?\n                            </a>\n                        </div>\n                    </form>\n\n                    {/* Footer */}\n                    <div className=\"bg-gray-50 px-8 py-6 text-center border-t border-gray-200\">\n                        <p className=\"text-gray-600\">\n                            Don't have an account?{' '}\n                            <Link to=\"/register\" className=\"text-blue-600 hover:text-blue-800 font-bold transition-colors duration-200\">\n                                Create one now\n                            </Link>\n                        </p>\n                    </div>\n                </div>\n\n                {/* Back to Home */}\n                <div className=\"text-center mt-6\">\n                    <Link\n                        to=\"/\"\n                        className=\"text-white hover:text-blue-100 font-medium transition-colors duration-200 flex items-center justify-center gap-2\"\n                    >\n                        ← Back to Home\n                    </Link>\n                </div>\n            </div>\n        </div>\n    );\n};\n\nexport default LoginPage;
+                                className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all duration-200"
+                                required
+                                disabled={loading}
+                            />
+                        </div>
+
+                        {/* Password Input */}
+                        <div>
+                            <label className="block text-sm font-bold text-gray-700 mb-2">Password</label>
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="••••••••"
+                                className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition-all duration-200"
+                                required
+                                disabled={loading}
+                            />
+                        </div>
+
+                        {/* Login Button */}
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-3 px-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                        >
+                            {loading ? (
+                                <span className="flex items-center justify-center gap-2">
+                                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                                    Signing in...
+                                </span>
+                            ) : (
+                                '🚀 Sign In'
+                            )}
+                        </button>
+
+                        {/* Forgot Password Link */}
+                        <div className="text-center">
+                            <a href="#" className="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors duration-200">
+                                Forgot your password?
+                            </a>
+                        </div>
+                    </form>
+
+                    {/* Footer */}
+                    <div className="bg-gray-50 px-8 py-6 text-center border-t border-gray-200">
+                        <p className="text-gray-600">
+                            Don't have an account?{' '}
+                            <Link to="/register" className="text-blue-600 hover:text-blue-800 font-bold transition-colors duration-200">
+                                Create one now
+                            </Link>
+                        </p>
+                    </div>
+                </div>
+
+                {/* Back to Home */}
+                <div className="text-center mt-6">
+                    <Link
+                        to="/"
+                        className="text-white hover:text-blue-100 font-medium transition-colors duration-200 flex items-center justify-center gap-2"
+                    >
+                        ← Back to Home
+                    </Link>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default LoginPage;
