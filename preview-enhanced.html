@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventBook - Discover Great Local Events</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#f97316', // Orange 500
+                        primaryDark: '#ea580c', // Orange 600
+                        brand: '#1e3a8a', // Blue 900
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9fafb; color: #111827; }
+        
+        .hero-bg {
+            background-image: linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.8)), url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center gap-2">
+                    <span class="text-primary font-bold text-2xl tracking-tight">e</span>
+                    <span class="font-bold text-xl tracking-tight text-gray-900">EventBook</span>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <div class="relative w-64 mr-4">
+                        <input type="text" placeholder="Search events..." class="w-full bg-gray-100 border-none rounded-full py-2 px-4 text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-colors">
+                        <svg class="w-4 h-4 text-gray-500 absolute right-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <a href="#events" class="text-gray-600 hover:text-gray-900 font-medium text-sm transition-colors">Find Events</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-900 font-medium text-sm transition-colors">Create Event</a>
+                    <div class="h-6 w-px bg-gray-300"></div>
+                    <button onclick="showLogin()" class="text-gray-600 hover:text-gray-900 font-medium text-sm transition-colors">
+                        Log In
+                    </button>
+                    <button onclick="showLogin()" class="px-4 py-2 rounded text-sm font-medium bg-white text-gray-900 border border-gray-300 hover:bg-gray-50 transition-colors">
+                        Sign Up
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMenu()" class="text-gray-500 hover:text-gray-900 p-2">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-200 shadow-lg absolute w-full">
+            <div class="px-4 pt-2 pb-4 space-y-1">
+                <a href="#events" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md">Find Events</a>
+                <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md">Create Event</a>
+                <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 rounded-md">Log In</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-16">
+        <!-- Hero Section -->
+        <section class="hero-bg py-24 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6">
+                    Don't miss out on what's happening near you
+                </h1>
+                
+                <!-- Practical Search Bar -->
+                <div class="bg-white p-2 rounded-lg shadow-xl flex flex-col md:flex-row gap-2 max-w-3xl mx-auto">
+                    <div class="flex-1 flex items-center px-4 h-12 border-b md:border-b-0 md:border-r border-gray-200">
+                        <svg class="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <input type="text" id="searchInput" placeholder="Search events or categories" 
+                            class="w-full text-gray-900 placeholder-gray-500 focus:outline-none text-base"
+                            onkeyup="filterEvents()">
+                    </div>
+                    <div class="flex-1 flex items-center px-4 h-12">
+                        <svg class="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <input type="text" placeholder="City or neighborhood" class="w-full text-gray-900 placeholder-gray-500 focus:outline-none text-base">
+                    </div>
+                    <button onclick="filterEvents()" 
+                        class="h-12 px-8 rounded bg-primary hover:bg-primaryDark text-white font-semibold transition-colors w-full md:w-auto">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Section -->
+        <section id="events" class="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <h2 class="text-2xl font-bold text-gray-900 mb-8">Popular events in your area</h2>
+
+            <div id="eventsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Event Card 1 -->
+                <div class="event-card bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
+                    <div class="relative h-48 bg-gray-200">
+                        <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                        <div class="absolute top-3 left-3 bg-white px-2 py-1 rounded text-xs font-semibold text-gray-700 shadow-sm">Workshop</div>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-1 leading-tight line-clamp-2">Web Design Workshop</h3>
+                        <p class="text-sm text-primary font-medium mb-3">Mon, Jun 15, 2026 • 2:00 PM</p>
+                        
+                        <div class="text-sm text-gray-600 mb-4 flex-1">
+                            <p>Tech Hub Downtown</p>
+                            <p class="mt-1">Starts at $25.00</p>
+                        </div>
+
+                        <div class="mt-auto border-t border-gray-100 pt-4 flex justify-between items-center">
+                            <span class="text-xs text-gray-500 font-medium">12/30 seats left</span>
+                            <button onclick="showBooking('Web Design Workshop', 25)" class="px-4 py-2 rounded bg-white text-primary border border-primary hover:bg-orange-50 text-sm font-semibold transition-colors">
+                                Get Tickets
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Card 2 -->
+                <div class="event-card bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
+                    <div class="relative h-48 bg-gray-200">
+                        <img src="https://images.unsplash.com/photo-1585699324551-f6c309eedeca?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                        <div class="absolute top-3 left-3 bg-white px-2 py-1 rounded text-xs font-semibold text-gray-700 shadow-sm">Comedy</div>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-1 leading-tight line-clamp-2">Comedy Night Extravaganza</h3>
+                        <p class="text-sm text-primary font-medium mb-3">Thu, Jun 18, 2026 • 7:00 PM</p>
+                        
+                        <div class="text-sm text-gray-600 mb-4 flex-1">
+                            <p>Central Theater</p>
+                            <p class="mt-1">Starts at $40.00</p>
+                        </div>
+
+                        <div class="mt-auto border-t border-gray-100 pt-4 flex justify-between items-center">
+                            <span class="text-xs text-gray-500 font-medium">Almost Full</span>
+                            <button onclick="showBooking('Comedy Night Extravaganza', 40)" class="px-4 py-2 rounded bg-white text-primary border border-primary hover:bg-orange-50 text-sm font-semibold transition-colors">
+                                Get Tickets
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Card 3 -->
+                <div class="event-card bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
+                    <div class="relative h-48 bg-gray-200">
+                        <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                        <div class="absolute top-3 left-3 bg-white px-2 py-1 rounded text-xs font-semibold text-gray-700 shadow-sm">Music</div>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-1 leading-tight line-clamp-2">Summer Music Festival</h3>
+                        <p class="text-sm text-primary font-medium mb-3">Sat, Jun 22, 2026 • 12:00 PM</p>
+                        
+                        <div class="text-sm text-gray-600 mb-4 flex-1">
+                            <p>Central Park</p>
+                            <p class="mt-1">Starts at $75.00</p>
+                        </div>
+
+                        <div class="mt-auto border-t border-gray-100 pt-4 flex justify-between items-center">
+                            <span class="text-xs text-gray-500 font-medium">Tickets Available</span>
+                            <button onclick="showBooking('Summer Music Festival', 75)" class="px-4 py-2 rounded bg-white text-primary border border-primary hover:bg-orange-50 text-sm font-semibold transition-colors">
+                                Get Tickets
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Card 4 -->
+                <div class="event-card bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
+                    <div class="relative h-48 bg-gray-200">
+                        <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                        <div class="absolute top-3 left-3 bg-white px-2 py-1 rounded text-xs font-semibold text-gray-700 shadow-sm">Sports</div>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-1 leading-tight line-clamp-2">Community Marathon 5K</h3>
+                        <p class="text-sm text-primary font-medium mb-3">Sun, Jun 25, 2026 • 6:00 AM</p>
+                        
+                        <div class="text-sm text-gray-600 mb-4 flex-1">
+                            <p>City Stadium</p>
+                            <p class="mt-1">Registration $20.00</p>
+                        </div>
+
+                        <div class="mt-auto border-t border-gray-100 pt-4 flex justify-between items-center">
+                            <span class="text-xs text-gray-500 font-medium">Open</span>
+                            <button onclick="showBooking('Community Marathon 5K', 20)" class="px-4 py-2 rounded bg-white text-primary border border-primary hover:bg-orange-50 text-sm font-semibold transition-colors">
+                                Register
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Card 5 -->
+                <div class="event-card bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
+                    <div class="relative h-48 bg-gray-200">
+                        <img src="https://images.unsplash.com/photo-1515169067868-5387ec356754?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                        <div class="absolute top-3 left-3 bg-white px-2 py-1 rounded text-xs font-semibold text-gray-700 shadow-sm">Business</div>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-1 leading-tight line-clamp-2">Tech Founders Networking Meetup</h3>
+                        <p class="text-sm text-primary font-medium mb-3">Tue, Jun 20, 2026 • 5:30 PM</p>
+                        
+                        <div class="text-sm text-gray-600 mb-4 flex-1">
+                            <p>Business Center</p>
+                            <p class="mt-1">Free</p>
+                        </div>
+
+                        <div class="mt-auto border-t border-gray-100 pt-4 flex justify-between items-center">
+                            <span class="text-xs text-gray-500 font-medium">35/100 RSVP'd</span>
+                            <button onclick="showBooking('Networking Meetup', 0)" class="px-4 py-2 rounded bg-white text-primary border border-primary hover:bg-orange-50 text-sm font-semibold transition-colors">
+                                RSVP
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Card 6 -->
+                <div class="event-card bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
+                    <div class="relative h-48 bg-gray-200">
+                        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                        <div class="absolute top-3 left-3 bg-white px-2 py-1 rounded text-xs font-semibold text-gray-700 shadow-sm">Food & Drink</div>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-1 leading-tight line-clamp-2">Italian Cooking Masterclass</h3>
+                        <p class="text-sm text-primary font-medium mb-3">Wed, Jun 16, 2026 • 3:00 PM</p>
+                        
+                        <div class="text-sm text-gray-600 mb-4 flex-1">
+                            <p>Culinary Institute</p>
+                            <p class="mt-1">Starts at $60.00</p>
+                        </div>
+
+                        <div class="mt-auto border-t border-gray-100 pt-4 flex justify-between items-center">
+                            <span class="text-xs text-gray-500 font-medium">Limited spots</span>
+                            <button onclick="showBooking('Italian Cooking Masterclass', 60)" class="px-4 py-2 rounded bg-white text-primary border border-primary hover:bg-orange-50 text-sm font-semibold transition-colors">
+                                Get Tickets
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- No Events Message -->
+            <div id="noEventsMessage" class="hidden text-center py-16 bg-white border border-gray-200 rounded-lg mt-8">
+                <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <h3 class="text-lg font-semibold text-gray-900 mb-1">We couldn't find anything</h3>
+                <p class="text-gray-600">Try adjusting your search or location to find more events.</p>
+                <button onclick="document.getElementById('searchInput').value=''; filterEvents();" class="mt-4 text-primary font-medium hover:text-primaryDark">
+                    Clear search
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand text-white pt-16 pb-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <h4 class="font-bold text-lg mb-4">EventBook</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><a href="#" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" class="hover:text-white">Press</a></li>
+                        <li><a href="#" class="hover:text-white">Careers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Discover</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><a href="#" class="hover:text-white">Events for you</a></li>
+                        <li><a href="#" class="hover:text-white">Virtual Events</a></li>
+                        <li><a href="#" class="hover:text-white">Get the app</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Host</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><a href="#" class="hover:text-white">Create an event</a></li>
+                        <li><a href="#" class="hover:text-white">Host resources</a></li>
+                        <li><a href="#" class="hover:text-white">Community standards</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Help</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><a href="#" class="hover:text-white">Contact support</a></li>
+                        <li><a href="#" class="hover:text-white">Trust and safety</a></li>
+                        <li><a href="#" class="hover:text-white">Privacy settings</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-blue-800 pt-8 flex flex-col md:flex-row justify-between text-sm text-gray-400">
+                <p>&copy; 2026 EventBook, Inc. All rights reserved.</p>
+                <div class="space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white">Terms</a>
+                    <a href="#" class="hover:text-white">Privacy</a>
+                    <a href="#" class="hover:text-white">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Background overlay -->
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onclick="closeBooking()"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            
+            <!-- Modal panel -->
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-gray-200">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 class="text-xl leading-6 font-bold text-gray-900" id="modalEventTitle">
+                                Book Tickets
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="px-4 py-5 sm:p-6 bg-gray-50">
+                    <div class="mb-6 flex justify-between items-center bg-white p-4 border border-gray-200 rounded-md">
+                        <div>
+                            <p class="text-sm font-medium text-gray-700">General Admission</p>
+                            <p class="text-xs text-gray-500" id="modalPricePerTicket">$40.00</p>
+                        </div>
+                        <div class="flex items-center border border-gray-300 rounded">
+                            <button onclick="decreaseTickets()" class="px-3 py-1 text-gray-600 hover:bg-gray-100">-</button>
+                            <input type="number" id="ticketCount" value="1" min="1" class="w-12 text-center border-l border-r border-gray-300 py-1 focus:outline-none" readonly>
+                            <button onclick="increaseTickets()" class="px-3 py-1 text-gray-600 hover:bg-gray-100">+</button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 pt-2">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Subtotal</span>
+                            <span class="text-gray-900 font-medium" id="subtotal">$40.00</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Fees</span>
+                            <span class="text-gray-900 font-medium" id="fee">$4.00</span>
+                        </div>
+                        <div class="flex justify-between text-base font-bold border-t border-gray-200 pt-3">
+                            <span class="text-gray-900">Total</span>
+                            <span class="text-gray-900" id="total">$44.00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200">
+                    <button type="button" onclick="completeBooking()" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-primaryDark sm:ml-3 sm:w-auto sm:text-sm">
+                        Checkout
+                    </button>
+                    <button type="button" onclick="closeBooking()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" onclick="closeSuccess()"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            
+            <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+                <div>
+                    <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                        <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <div class="mt-3 text-center sm:mt-5">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                            Order successful
+                        </h3>
+                        <div class="mt-2">
+                            <p class="text-sm text-gray-500">
+                                Your tickets have been sent to your email. You can also access them from your account dashboard.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-5 sm:mt-6">
+                    <button type="button" onclick="closeSuccess()" class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-primaryDark sm:text-sm">
+                        Done
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logic -->
+    <script>
+        let currentPrice = 0;
+
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function filterEvents() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.event-card');
+            let hasVisible = false;
+
+            cards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const locationPara = card.querySelector('.text-sm.text-gray-600 p:first-child');
+                const location = locationPara ? locationPara.textContent.toLowerCase() : "";
+                
+                if (title.includes(query) || location.includes(query)) {
+                    card.style.display = 'flex';
+                    hasVisible = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const noEvents = document.getElementById('noEventsMessage');
+            if (noEvents) {
+                if (hasVisible) {
+                    noEvents.classList.add('hidden');
+                } else {
+                    noEvents.classList.remove('hidden');
+                }
+            }
+        }
+
+        function showBooking(title, price) {
+            currentPrice = price;
+            document.getElementById('modalEventTitle').textContent = title;
+            document.getElementById('modalPricePerTicket').textContent = price === 0 ? 'Free' : '$' + price.toFixed(2);
+            document.getElementById('ticketCount').value = 1;
+            
+            updateTotal();
+            document.getElementById('bookingModal').classList.remove('hidden');
+        }
+
+        function closeBooking() {
+            document.getElementById('bookingModal').classList.add('hidden');
+        }
+
+        function increaseTickets() {
+            const input = document.getElementById('ticketCount');
+            input.value = parseInt(input.value) + 1;
+            updateTotal();
+        }
+
+        function decreaseTickets() {
+            const input = document.getElementById('ticketCount');
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+                updateTotal();
+            }
+        }
+
+        function updateTotal() {
+            const tickets = parseInt(document.getElementById('ticketCount').value);
+            const subtotal = tickets * currentPrice;
+            const fee = currentPrice === 0 ? 0 : subtotal * 0.1;
+            const total = subtotal + fee;
+
+            document.getElementById('subtotal').textContent = currentPrice === 0 ? 'Free' : '$' + subtotal.toFixed(2);
+            document.getElementById('fee').textContent = currentPrice === 0 ? 'Free' : '$' + fee.toFixed(2);
+            document.getElementById('total').textContent = currentPrice === 0 ? 'Free' : '$' + total.toFixed(2);
+        }
+
+        function completeBooking() {
+            document.getElementById('bookingModal').classList.add('hidden');
+            document.getElementById('successModal').classList.remove('hidden');
+        }
+
+        function closeSuccess() {
+            document.getElementById('successModal').classList.add('hidden');
+        }
+
+        function showLogin() {
+            alert('Log in page would open here.');
+        }
+
+        // Initialize display properties correctly on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.event-card');
+            cards.forEach(card => card.style.display = 'flex');
+        });
+    </script>
+</body>
+</html>
