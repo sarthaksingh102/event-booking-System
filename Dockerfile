@@ -9,7 +9,7 @@ ENV VITE_API_URL=/api
 RUN npm run build
 
 # Stage 2: Build the Spring Boot Backend
-FROM maven:3.8.4-openjdk-17-slim AS backend-build
+FROM maven:3.9-eclipse-temurin-17 AS backend-build
 WORKDIR /app/backend
 COPY backend/pom.xml .
 RUN mvn dependency:go-offline -B
@@ -22,7 +22,7 @@ COPY --from=frontend-build /app/frontend/dist ./src/main/resources/static
 RUN mvn clean package -DskipTests
 
 # Stage 3: Run the Application
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 COPY --from=backend-build /app/backend/target/local-event-booking-system-1.0-SNAPSHOT.jar app.jar
 
